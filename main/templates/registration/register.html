@@ -1,6 +1,6 @@
 {% load static %}
 <!doctype html>
-<html lang="ru">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,9 +8,9 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>MovieREC</title>
+        <title>MovieREC | Регистрация</title>
 
-
+        <!-- CSS FILES -->                
         <link rel="preconnect" href="https://fonts.googleapis.com">
         
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -22,19 +22,18 @@
         <link href="{% static 'main/css/bootstrap-icons.css' %}" rel="stylesheet">
 
         <link href="{% static 'main/css/tooplate-kool-form-pack.css' %}" rel="stylesheet">
-
     </head>
     
     <body>
 
         <main>
-            user: {{ user }}
+
             <header class="site-header">
                 <div class="container">
                     <div class="row justify-content-between">
 
-                        <div class="col-lg-12 col-12 d-flex align-items-center">
-                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="">
+                        <div class="col-lg-12 col-12 d-flex">
+                            <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'home' %}">
                                 <i class="bi-badge-hd"></i>
 
                                 <span>
@@ -85,7 +84,7 @@
                             </li>
 
                             <li>
-                                <a href="{% url 'register' %}">Зарегистрироваться</a>
+                                <a href="{% url 'register' %}" class="active">Зарегистрироваться</a>
                             </li>
 
                             <li>
@@ -105,47 +104,59 @@
             </div>
 
 
-            <div class="modal fade" id="subscribeModal" tabindex="-1" aria-labelledby="subscribeModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
 
-                        <div class="modal-body">
-                            <form action="#" method="get" class="custom-form mt-lg-4 mt-2" role="form">
-                                <h2 class="modal-title" id="subscribeModalLabel">Будь в курсе новых фильмов!</h2>
-
-                                <input type="email" name="email" id="email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="your@email.com" required="">
-
-                                <button type="submit" class="form-control">Подписаться</button>
-                            </form>
-                        </div>
-
-                        <div class="modal-footer justify-content-center">
-                            <p>Подписываясь, вы соглашаетесь с нашим Соглашением о конфиденциальности.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-
-            <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
+            <section class="hero-section d-flex justify-content-center align-items-center">
                 <div class="container">
                     <div class="row">
-
                         <div class="col-lg-6 col-12 mx-auto">
-                            <small>сайт в процессе разработки.</small>
+                            {% if form.errors %}
+                                <h2 class="hero-title text-center mb-4 pb-2">{{ form.errors }}</h2>
+                            {% endif %}
+                            <form class="custom-form login-form" action="{% url 'register' %}" role="form" method="post">
+                                {% csrf_token %}
+                                <h2 class="hero-title text-center mb-4 pb-2">Регистрация</h2>
 
-                          <h1 class="text-white mt-2 mb-3 pb-1">
-                                MovieREC – это сервис для подбора фильмов
-                            </h1>
-                             <div>
-                                 <a href="" class="custom-btn custom-border-btn btn" data-bs-toggle="modal" data-bs-target="#subscribeModal"><b>Подписаться на рассылку</b>
-                                    <i class="bi-arrow-right ms-2"></i>
-                                </a>
-                            </div>
+                                <div class="row">
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-floating">
+                                            <input type="text" name="username" id="username" class="form-control" placeholder="Имя пользователя" required="">
+                                            
+                                            <label for="floatingInput">Имя пользователя</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-floating mb-4 p-0">
+                                            <input type="password" name="password1" id="password1" class="form-control" placeholder="Пароль" required="">
+
+                                            <label for="passwod">Пароль</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12 col-12">
+                                        <div class="form-floating p-0">
+                                            <input type="password" name="password2" id="password2" class="form-control" placeholder="Подтверждение пароля" required="">
+
+                                            <label for="password2">Подтверждение пароля</label>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="row justify-content-center align-items-center">
+                                        <div class="col-lg-12 col-12">
+                                            <button type="submit" class="form-control">Зарегистрироваться</button>
+                                        </div>
+
+                                        <div class="col-lg-12 col-12">
+                                            <h4 class="hero-title text-center mb-3 m-5">Уже есть аккаунт?</h4>
+                                        </div>
+                                        <div class="col-lg-5 col-12">
+                                            <a href="{% url 'login' %}" class="btn custom-btn custom-border-btn">Зайти в аккаунт</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -160,6 +171,7 @@
             </section>
         </main>
 
+        <!-- JAVASCRIPT FILES -->
         <script src="{% static 'main/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'main/js/init.js' %}"></script>
 
