@@ -6,11 +6,6 @@ from django.views import View
 from users.forms import UserCreationForm
 
 
-@login_required
-def profile_view(request):
-    return render(request, "main/profile.html")
-
-
 class Register(View):
     template_name = 'registration/register.html'
 
