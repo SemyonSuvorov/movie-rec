@@ -356,31 +356,6 @@ strong {
   color: var(--white-color);
 }
 
-
-/*---------------------------------------
-  COUNTDOWN              
------------------------------------------*/
-.countdown {
-  padding-left: 0;
-}
-
-.countdown-title {
-  color: var(--white-color);
-}
-
-.countdown-item {
-  list-style: none;
-  flex: 0 0 13%;
-  margin: 15px;
-}
-
-.countdown-text {
-  color: var(--section-bg-color);
-  font-size: var(--p-font-size);
-  font-style: italic;
-}
-
-
 /*---------------------------------------
   MODAL EMAIL FORM        
 -----------------------------------------*/

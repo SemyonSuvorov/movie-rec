@@ -7,7 +7,6 @@
 {% block section %}
     <div class="container">
         <div class="row">
-
             <div class="col-lg-5 col-12 mx-auto">
                 {% if form.errors %}
                     <h2 class="hero-title text-center mb-4 pb-2">{{ form.non_field_errors }}</h2>
@@ -32,7 +31,6 @@
                         <div class="col-lg-5 col-12">
                             <button type="submit" class="form-control">Вход</button>
                         </div>
-
                         <div class="col-lg-5 col-12">
                             <a href="{% url 'register' %}" class="btn custom-btn custom-border-btn">Регистрация</a>
                         </div>
