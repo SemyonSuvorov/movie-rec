@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from users.models import User
 from movie_recsys import utils as movierec_utils
 from movies.models import Movie
-user = User
 
 
 class Command(BaseCommand):
@@ -26,8 +25,6 @@ class Command(BaseCommand):
             profiles = movierec_utils.get_fake_profiles(count=count)
             new_users = []
             for profile in profiles:
-                new_users.append(user(**profile))
-            users_bulk = user.objects.bulk_create(new_users, ignore_conflicts=True)
+                new_users.append(User(**profile))
+            users_bulk = User.objects.bulk_create(new_users, ignore_conflicts=True)
             print(f"New users created {len(users_bulk)}")
-
-
