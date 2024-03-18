@@ -2,6 +2,7 @@ from pathlib import Path
 from django.urls import reverse_lazy
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+DATA_DIR = BASE_DIR / "data"
 
 
 # Quick-start development settings - unsuitable for production
@@ -19,8 +20,10 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    "ratings",
     "main",
     "users",
+    "movies",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
