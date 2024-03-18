@@ -3,8 +3,10 @@ from .models import Rating
 
 
 class RatingAdmin(admin.ModelAdmin):
+    list_display = ["content_object", "user", "value", "active"]
     raw_id_fields = ["user"]
     readonly_fields = ["content_object"]
+    search_fields = ["user__username"]
 
 
 admin.site.register(Rating, RatingAdmin)
