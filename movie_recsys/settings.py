@@ -1,5 +1,6 @@
 from pathlib import Path
 from django.urls import reverse_lazy
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = BASE_DIR / "data"
@@ -24,6 +25,8 @@ INSTALLED_APPS = [
     "main",
     "users",
     "movies",
+    "django_celery_results",
+    "django_celery_beat",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -43,6 +46,10 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "movie_recsys.urls"
+
+CELERY_BEAT_SCHEDULER = "django_celery_beat.schedulers.DatabaseScheduler"
+CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_RESULT_BACKEND = "django-db"
 
 TEMPLATES = [
     {
