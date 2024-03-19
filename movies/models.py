@@ -69,3 +69,6 @@ class Movie(models.Model):
         if save:
             self.save()
         return self.rating_avg
+
+    def get_absolute_url(self):
+        return f"/movies/{self.id}/"

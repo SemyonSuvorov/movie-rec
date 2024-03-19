@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from movies.tasks import task_calculate_movie_ratings
+# from movies.tasks import task_calculate_movie_ratings
+from ratings.tasks import task_update_movie_ratings
 
 
 class Command(BaseCommand):
@@ -8,7 +9,5 @@ class Command(BaseCommand):
         parser.add_argument("--all", action="store_true", default=False)
 
     def handle(self, *args, **options):
-        all = options.get("all")
-        count = options.get("count")
-        task_calculate_movie_ratings(all=all, count=count)
+        task_update_movie_ratings()
 

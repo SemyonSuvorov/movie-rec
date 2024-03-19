@@ -1,4 +1,8 @@
 import random
+
+from django.db.models import Avg, Count
+from django.utils import timezone
+
 from movies.models import Movie
 from users.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -16,7 +20,7 @@ def generate_fake_reviews(count=100, users=10, null_avg=False):
     movies = Movie.objects.all().order_by("?")[:count]
     movie_ctype = ContentType.objects.get_for_model(Movie)
     if null_avg:
-        movies = Movie.objects.filter(rating_avg__isnull=True).\
+        movies = Movie.objects.filter(rating_avg__isnull=True). \
                      order_by("?")[:count]
     n_rantings = movies.count()
     rating_choices = [x for x in RatingChoice.values if x is not None]
@@ -32,3 +36,24 @@ def generate_fake_reviews(count=100, users=10, null_avg=False):
         )
         new_ratings.append(rating_obj.id)
     return new_ratings
+
+
+@shared_task(name="task_update_movie_ratings")
+def task_update_movie_ratings(object_id=None):
+    ctype = ContentType.objects.get_for_model(Movie)
+    rating_qs = Rating.objects.filter(content_type=ctype)
+    if object_id:
+        rating_qs = rating_qs.filter(object_id=object_id)
+    agg_ratings = (rating_qs.values('object_id').
+                   annotate(average=Avg('value'), count=Count('object_id')))
+
+    for agg_rate in agg_ratings:
+        object_id = agg_rate['object_id']
+        rating_avg = agg_rate['average']
+        rating_count = agg_rate['count']
+        qs = Movie.objects.filter(id=object_id)
+        qs.update(
+            rating_avg=rating_avg,
+            rating_count=rating_count,
+            ratings_last_updated=timezone.now()
+        )
