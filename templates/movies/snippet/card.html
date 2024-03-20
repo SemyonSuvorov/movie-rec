@@ -1,4 +1,5 @@
 {% load get_dict_val %}
+{% load static %}
 {% with my_ratings|get_dict_val:object.id as current_rating %}
 <div class="card shadow-sm">
     <div class="card-body">
@@ -11,20 +12,10 @@
             {% endif %}
             </div>
         <div>
+        {% include 'ratings/snippet/rating-choices.html' with object_id=object.id current_rating=current_rating %}
              {% if object.rating_avg %}
         <small class="text-muted">{{ object.rating_avg }} ({{ object.rating_count }})</small>
           {% endif %}
-            <label>
-                <select class="form-control">
-                    {% for choice in rating_choices %}
-                        {% if choice is None %}
-                            <option disabled selected>Pick a rating</option>
-                            {% else %}
-                            <option {% if current_rating == choice %}selected{% endif %} value="{{ choice }}">{{ choice }}</option>
-                        {% endif %}
-                    {% endfor %}
-                </select>
-            </label>
         </div>
       </div>
     </div>

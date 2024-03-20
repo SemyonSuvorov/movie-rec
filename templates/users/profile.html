@@ -41,7 +41,10 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="avatar"
                    style="width: 150px;">
                 <h5 class="my-3">{{ user.username }}</h5>
-                <p class="text">Новичок (ур.1)</p>
+                  <form action="{% url 'logout' %}" method="post" class="my-3">
+                    {% csrf_token %}
+                      <button type="submit" class="btn btn-outline-danger"><small>Выйти из аккаунта</small></button>
+                </form>
                 <button href="{% url 'profile' %}" class="custom-btn">Поиск фильмов</button>
                 <button href="{% url 'profile' %}" class="btn custom-btn custom-border-btn bg-secondary">Мои оценки</button>
               </div>
