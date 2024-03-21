@@ -21,6 +21,7 @@ ALLOWED_HOSTS = ["127.0.0.1"]
 # Application definition
 
 INSTALLED_APPS = [
+    "exports",
     "ratings",
     "main",
     "users",
@@ -131,3 +132,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "profile"
 LOGOUT_REDIRECT_URL = "/accounts/login"
+
+MEDIA_ROOT = BASE_DIR / 'local-cdn' / 'media'

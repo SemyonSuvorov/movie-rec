@@ -11,5 +11,9 @@ app.conf.beat_schedule = {
     "run_movie_rating_avg_every_30": {
         'task': 'task_update_movie_ratings',
         'schedule': 30*60,
-    }
+    },
+    "run_rating_export_every_hour": {
+            'task': 'export_rating_dataset',
+            'schedule': 60*60,
+        }
 }
