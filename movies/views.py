@@ -2,8 +2,10 @@ from django.views import generic
 from .models import Movie
 
 SORTING_CHOICES = {
-    "popular": "-rating_avg",
-    "unpopular": "rating_avg",
+    "popular": "popular",
+    "unpopular": "unpopular",
+    "top rated": "-rating_avg",
+    "low rated": "rating_avg",
     "recent": "-release_date",
     "old": "release_date"
 }
@@ -11,16 +13,18 @@ SORTING_CHOICES = {
 
 class MovieListView(generic.ListView):
     paginate_by = 100
-
     # context -> object_list
 
     def get_queryset(self):
         request = self.request
-        default_sort = request.session.get('movie_sort_order') or '-rating_avg'
-        qs = Movie.objects.all().order_by(default_sort)
-        sort = request.GET.get('sort')
+        sort = request.GET.get('sort') or request.session.get('movie_sort_order') or 'popular'
+        qs = Movie.objects.all()
         if sort is not None:
             request.session['movie_sort_order'] = sort
+            if sort == 'popular':
+                return qs.popular()
+            elif sort == 'unpopular':
+                return qs.popular(reverse=True)
             qs = qs.order_by(sort)
         return qs
 
@@ -47,10 +51,8 @@ movie_list_view = MovieListView.as_view()
 
 
 class MovieDetailView(generic.DetailView):
-    template_name = "movies/detail.html"
-
+    template_name = 'movies/detail.html'
     # context -> object -> id
-
     queryset = Movie.objects.all()
 
     def get_context_data(self, *args, **kwargs):
@@ -60,8 +62,8 @@ class MovieDetailView(generic.DetailView):
         if user.is_authenticated:
             object = context['object']
             object_ids = [object.id]
-            qs = user.rating_set.filter(active=True).as_object_dict(object_ids=object_ids)
-            context['my_ratings'] = qs
+            my_ratings = user.rating_set.movies().as_object_dict(object_ids=object_ids)
+            context['my_ratings'] = my_ratings
         return context
 
 
