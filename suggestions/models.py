@@ -42,12 +42,14 @@ class Suggestion(models.Model):
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey("content_type", "object_id")
     timestamp = models.DateTimeField(auto_now_add=True)
+    #
+    active = models.BooleanField(default=True)
     # when ratings occur after a suggestion
     rating_value = models.FloatField(null=True, blank=True)
     did_rate = models.BooleanField(default=False)
     did_rate_timestamp = models.DateTimeField(auto_now_add=False, auto_now=False, blank=True, null=True)
+
     objects = SuggestionManager()
-    active = models.BooleanField(default=True)
 
     class Meta:
         ordering = ['-timestamp']

@@ -7,7 +7,7 @@
         <select name="rating_value" class="form-control">
             {% for choice in rating_choices %}
                 {% if choice is None %}
-                    <option disabled selected>Pick a rating</option>
+                    <option disabled selected>Оцените фильм</option>
                     {% else %}
                     <option {% if current_rating == choice %}selected{% endif %} value="{{ choice }}">{{ choice }}</option>
                 {% endif %}

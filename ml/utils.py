@@ -18,7 +18,7 @@ def export_ratings_dataset():
     return qs.values('userId', 'movieId', 'rating')
 
 
-def train_surprise_model(n_epochs = 20):
+def train_surprise_model(n_epochs=20):
     dataset = export_ratings_dataset()
     loaded_data = get_data_loader(dataset)
     model = SVD(verbose=True, n_epochs=n_epochs)
