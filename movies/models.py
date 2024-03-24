@@ -74,30 +74,6 @@ class Movie(models.Model):
             return f"{self.title}"
         return f"{self.title} ({self.release_date.year})"
 
-    # def rating_avg_display(self):
-    #     now = timezone.now()
-    #     if not self.ratings_last_updated:
-    #         return self.calculate_rating()
-    #     if self.ratings_last_updated > now - datetime.timedelta(days=RATING_CALC_TIME_IN_DAYS):
-    #         return self.rating_avg
-    #     return self.calculate_rating()
-    #
-    # def calculate_ratings_count(self):
-    #     return self.ratings.all().count()
-    #
-    # def calculate_ratings_avg(self):
-    #     return self.ratings.all().avg()
-    #
-    # def calculate_rating(self, save=True):
-    #     rating_avg = self.calculate_ratings_avg()
-    #     rating_count = self.calculate_ratings_count()
-    #     self.rating_count = rating_count
-    #     self.rating_avg = rating_avg
-    #     self.ratings_last_updated = timezone.now()
-    #     if save:
-    #         self.save()
-    #     return self.rating_avg
-
     def get_absolute_url(self):
         return f"/movies/{self.id}/"
 

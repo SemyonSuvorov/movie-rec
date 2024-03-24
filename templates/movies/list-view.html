@@ -1,19 +1,22 @@
-{% extends 'movies/base.html' %}
+{% extends 'users/profile_base.html' %}
 
-{% block title %}Movie List{% endblock %}
+{% block title %}MovieREC | Фильмы{% endblock %}
 
+{% block header-sort %}
+    <li class="breadcrumb-item">
+    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'movies' %}">Фильмы</a>
+    </li>
+
+    <label>
+        <select style="margin-left: 700px; width: auto" name="sort" class="form-control" hx-get="/movies/" hx-target="#target-list-change">
+            {% for key, value in sorting_choices.items %}
+                <option value="{{ value }}">{{ key|title }}</option>
+            {% endfor %}
+        </select>
+    </label>
+
+{% endblock %}
 {% block content %}
-    <div class="row my-2">
-        <div class="col-md-2 ms-auto">
-            <label>
-                <select name="sort" class="form-control" hx-get="/movies/" hx-target="#target-list-change">
-                    {% for key, value in sorting_choices.items %}
-                        <option value="{{ value }}">{{ key|title }}</option>
-                    {% endfor %}
-                </select>
-            </label>
-        </div>
-    </div>
     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="target-list-change">
         {% include 'movies/snippet/list.html' with object_list=object_list %}
     </div>

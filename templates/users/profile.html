@@ -1,94 +1,75 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title> MovieREC | Профиль {{ user.username }}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
-    <link href="{% static 'main/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'main/css/bootstrap-icons.css' %}" rel="stylesheet">
-    <link href="{% static 'main/css/tooplate-kool-form-pack.css' %}" rel="stylesheet">
-</head>
-<body>
+{% extends 'users/profile_base.html' %}
+{% block title %}MovieREC | Профиль {{ user.username }}{% endblock %}
 
-    <section>
-      <div class="container py-5">
-        <div class="row">
-          <div class="col">
-            <nav aria-label="breadcrumb" class="bg-secondary rounded-3 p-3 mb-4">
-              <ol class="breadcrumb mb-0">
-                <li class="breadcrumb-item">
-                    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'home' %}">
-                        <i class="bi-badge-hd"></i>
-                        <span>
-                            MovieREC
-                        </span>
-                    </a>
-                </li>
-                <li class="breadcrumb-item">
-                    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'profile' %}">Личный кабинет</a>
-                </li>
-              </ol>
-            </nav>
+{% block content %}
+<div class="row">
+    <div class="col-lg-4">
+        <div class="card mb-4">
+          <div class="card-body text-center">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="avatar"
+               style="width: 150px;">
+            <h5 class="my-3">{{ user.username }}</h5>
+              <form action="{% url 'logout' %}" method="post" class="my-3">
+                {% csrf_token %}
+                  <button type="submit" class="btn btn-outline-danger"><small>Выйти из аккаунта</small></button>
+            </form>
+            <a href="{% url 'movies' %}" class="custom-btn">Поиск фильмов</a>
+            <a href="{% url 'ratings' %}" class="btn custom-btn custom-border-btn bg-secondary">Мои оценки</a>
           </div>
         </div>
-
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card mb-4">
-              <div class="card-body text-center">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2c/Default_pfp.svg" alt="avatar"
-                   style="width: 150px;">
-                <h5 class="my-3">{{ user.username }}</h5>
-                  <form action="{% url 'logout' %}" method="post" class="my-3">
-                    {% csrf_token %}
-                      <button type="submit" class="btn btn-outline-danger"><small>Выйти из аккаунта</small></button>
-                </form>
-                <button href="{% url 'profile' %}" class="custom-btn">Поиск фильмов</button>
-                <button href="{% url 'profile' %}" class="btn custom-btn custom-border-btn bg-secondary">Мои оценки</button>
-              </div>
-            </div>
-            <div class="card mb-4 mb-lg-0">
-              <div class="card-body p-0">
-                <ul class="list-group list-group-flush rounded-3">
-                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i class="fas fa-globe fa-lg text-warning"></i>
-                    <p class="mb-0">https://mdbootstrap.com</p>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i class="fab fa-github fa-lg" style="color: #333333;"></i>
-                    <p class="mb-0">mdbootstrap</p>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i class="fab fa-twitter fa-lg" style="color: #55acee;"></i>
-                    <p class="mb-0">@mdbootstrap</p>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i class="fab fa-instagram fa-lg" style="color: #ac2bac;"></i>
-                    <p class="mb-0">mdbootstrap</p>
-                  </li>
-                  <li class="list-group-item d-flex justify-content-between align-items-center p-3">
-                    <i class="fab fa-facebook-f fa-lg" style="color: #3b5998;"></i>
-                    <p class="mb-0">mdbootstrap</p>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-8">
-            <div class="card mb-4">
-              <div class="card-body">
-                     <h4>Ваши рекомендации:</h4>
-                     <div class="d-flex flex-column overflow-auto" style="max-height: 700px;">
-                          {% include 'movies/snippet/list.html' with object_list=object_list %}
-                    </div>
+          <div class="card mb-4 mb-lg-0" style="width: 415px; height: 415px">
+            <div class="card-body p-0">
+                <div>
+                    <canvas id="radarChart"></canvas>
                 </div>
-            </div>
+                <script>
+                    const ctxR = document.getElementById("radarChart").getContext('2d');
+                    const myRadarChart = new Chart(ctxR, {
+                      type: 'radar',
+                      data: {
+                        labels: ["1", "2", "3", "4", "5"],
+                        datasets: [{
+                          label: "Количество оценок",
+                          data: {{ ratings_list_count }},
+                          backgroundColor: [
+                            'rgba(224, 122, 95, .3)',
+                          ],
+                          borderColor: [
+                            'rgba(224, 122, 95, .7)',
+                          ],
+                          borderWidth: 2
+                        },
+                        ]
+                      },
+                      options: {
+                        responsive: true
+                      }
+                    });
+                </script>
             </div>
         </div>
-      </div>
-    </section>
-</body>
-</html>
+        </div>
+
+        <div class="col-lg-8">
+        <div class="card mb-4">
+          <div class="card-body">
+              <h4>Ваши рекомендации:
+              <a class="custom-btn" style="margin-left: 375px; margin-top: 10px" href="#" onclick="reloadClear();">Обновить</a>
+              <script>
+                function reloadClear() {
+                  window.localStorage.clear();
+                  window.location.reload(true);
+                  return false;
+                }
+              </script></h4>
+
+                 <div class="d-flex flex-column overflow-auto mt-2" style="max-height: 688px;">
+                      {% include 'movies/snippet/list.html' with object_list=object_list %}
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}

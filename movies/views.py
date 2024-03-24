@@ -2,12 +2,12 @@ from django.views import generic
 from .models import Movie
 
 SORTING_CHOICES = {
-    "popular": "popular",
-    "unpopular": "unpopular",
-    "top rated": "-rating_avg",
-    "low rated": "rating_avg",
-    "recent": "-release_date",
-    "old": "release_date"
+    "популярные": "popular",
+    "непопулярные": "unpopular",
+    "выс. оценка": "-rating_avg",
+    "низ. оценка": "rating_avg",
+    "новые": "-release_date",
+    "старые": "release_date"
 }
 
 

@@ -1,0 +1,14 @@
+{% extends 'users/profile_base.html' %}
+{% block title %}MovieREC | Оценки {{ user.username }}{% endblock %}
+
+{% block header-sort %}
+    <li class="breadcrumb-item">
+        <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'ratings' %}">Мои оценки</a>
+    </li>
+{% endblock %}
+
+{% block content %}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3" id="target-list-change">
+        {% include 'movies/snippet/list.html' with object_list=object_list %}
+    </div>
+{% endblock %}

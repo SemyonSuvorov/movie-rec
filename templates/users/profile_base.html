@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title> {% block title %} {% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@1.9.11" integrity="sha384-0gxUXCCR8yv9FM2b+U3FDbsKthCI66oH5IA9fHppQq9DDMHuMauqq1ZHBpJxQ0J0" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://kit.fontawesome.com/45a38be68c.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,400;0,700;1,200&family=Unbounded:wght@400;700&display=swap" rel="stylesheet">
+    <link href="{% static 'main/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'main/css/bootstrap-icons.css' %}" rel="stylesheet">
+    <link rel="shortcut icon" type="image/png" href="{% static 'images/favicon.png' %}" >
+    <link href="{% static 'main/css/tooplate-kool-form-pack.css' %}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}'>
+    <section style="background-color: #1a1d20">
+      <div class="container py-5">
+        <div class="row">
+          <div class="col">
+            <nav aria-label="breadcrumb" class="bg-secondary rounded-3 p-3 mb-4">
+              <ol class="breadcrumb mb-0 align-items-center">
+                <li class="breadcrumb-item">
+                    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'home' %}">
+                        <img src="{% static 'images/favicon.png' %}" alt="movieRecIcon" width="20" height="20">
+                        <span>
+                            MovieREC
+                        </span>
+                    </a>
+                </li>
+                <li class="breadcrumb-item">
+                    <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'profile' %}">{% block headername %}Личный кабинет{% endblock %}</a>
+                </li>
+              {% block header-sort %}
+
+              {% endblock %}
+              </ol>
+            </nav>
+          </div>
+        </div>
+        {% block content %}
+
+        {% endblock %}
+      </div>
+        <button type="button" class="btn custom-btn" id="btn-back-to-top" style="position: fixed;bottom: 40px;right: 40px;display: none; width: 60px; height: 60px">
+             <i class="fa-solid fa-arrow-up"></i></button>
+    <script>
+       let mybutton = document.getElementById("btn-back-to-top");
+        window.onscroll = function () {
+          scrollFunction();
+        };
+
+        function scrollFunction() {
+          if (
+            document.body.scrollTop > 100 ||
+            document.documentElement.scrollTop > 100
+          ) {
+            mybutton.style.display = "block";
+          } else {
+            mybutton.style.display = "none";
+          }
+        }
+        mybutton.addEventListener("click", backToTop);
+
+        function backToTop() {
+          document.body.scrollTop = 0;
+          document.documentElement.scrollTop = 0;
+        }
+    </script>
+    </section>
+</body>
