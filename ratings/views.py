@@ -23,7 +23,7 @@ def rate_movie_view(request):
             items_rated += 1
             request.session['items-rated'] = items_rated
             print('items_rated', items_rated)
-            if items_rated % 5 == 0:
+            if items_rated % 2 == 0:
                 print("trigger new suggestions")
                 users_ids = [user.id]
                 ml_tasks.batch_users_prediction_task.apply_async(kwargs={

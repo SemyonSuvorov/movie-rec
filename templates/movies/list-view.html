@@ -6,9 +6,9 @@
     <li class="breadcrumb-item">
     <a class="site-header-text d-flex justify-content-center align-items-center me-auto" href="{% url 'movies' %}">Фильмы</a>
     </li>
-
+    {% include 'users/search.html' %}
     <label>
-        <select style="margin-left: 700px; width: auto" name="sort" class="form-control" hx-get="/movies/" hx-target="#target-list-change">
+        <select style="margin-left: 200%; width: auto" name="sort" class="form-control" hx-get="/movies/" hx-target="#target-list-change">
             {% for key, value in sorting_choices.items %}
                 <option value="{{ value }}">{{ key|title }}</option>
             {% endfor %}

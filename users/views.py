@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
-
+from django.http import HttpResponse
 from movies.models import Movie
 from suggestions.models import Suggestion
 from ratings.models import Rating
@@ -40,3 +40,20 @@ def ratings_view(request):
         my_ratings = user.rating_set.movies().as_object_dict(object_ids=object_ids)
         context['my_ratings'] = my_ratings
     return render(request, 'users/ratings.html', context)
+
+
+def search_film(request):
+    user = request.user
+    search_text = request.GET.get('search')
+    response = HttpResponse("<h3 class='text-white'>Ничего не найдено</h3>")
+    if len(search_text) == 0:
+        return response
+    results = Movie.objects.filter(title__icontains=search_text)
+    if len(results) == 0:
+        return response
+    context = {'object_list': results}
+    object_list = context['object_list']
+    object_ids = [x.id for x in object_list]
+    my_ratings = user.rating_set.movies().as_object_dict(object_ids=object_ids)
+    context['my_ratings'] = my_ratings
+    return render(request, 'movies/snippet/list.html', context)

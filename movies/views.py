@@ -12,7 +12,7 @@ SORTING_CHOICES = {
 
 
 class MovieListView(generic.ListView):
-    paginate_by = 100
+    paginate_by = 250
     # context -> object_list
 
     def get_queryset(self):

@@ -1,0 +1,10 @@
+<div class="d-flex justify-content-end rounded" style="margin-left: 120px">
+    <input style="height: 38px; width: 200px;" type="text"
+        hx-get="{% url 'search-film' %}"
+        hx-target="#target-list-change"
+        hx-trigger="click from:#searchButton"
+        name="search"
+        class="form-control"
+        placeholder="Поиск..">
+    <button class="btn custom-btn" style="margin-left: 5px" id="searchButton" type="submit"><i class="fa fa-search"></i></button>
+</div>
